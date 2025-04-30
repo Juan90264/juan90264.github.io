@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>Juan90264 - License</title>
+   <meta name="description" content="Portfolio">
+   <meta name="keywords" content="HTML, CSS, JavaScript">
+   <meta name="author" content="Juan90264">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="style.css" />
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+   <script>
+      var oldScrollY = window.scrollY + 400;
+      window.onscroll = function(e) {
+        if(oldScrollY < window.scrollY){
+           $(".DIV-MENU").addClass("fixed");
+        } else {
+           $(".DIV-MENU").removeClass("fixed");
+        }
+        oldScrollY = window.scrollY;
+      }
+   </script>
+</head>
+<body>
+   <div class="DIV-MENU">
+      <div class="DIV-MENU-LOGO"><a href="index.html">JUAN90264</a></div>
+      <div class="DIV-MENU-MOBILE">
+         <button class="DIV-MENU-MOBILE-BUTTON">
+            <img src="https://www.svgrepo.com/show/509382/menu.svg" />
+         </button>
+      </div>
+      <div class="DIV-MENU-">
+         <ul>
+           <li><a href="codes.html">Códigos</a></li>
+           <li><a href="license.html">Licença</a></li>
+         </ul>
+      </div>
+      <div class="DIV-MENU-IDIOMAS" id="DIV-MENU-IDIOMAS">
+        <select id="language-select">
+           <option value="pt">Português</option>
+           <option value="en">English</option>
+        </select>
+      </div>
+   </div>
+   <div class="DIV-MENU-MOBILE-">
+      <div>
+         <ul>
+            <li><a href="codes.html">Códigos</a></li>
+            <li><a href="license.html">Licença</a></li> 
+         </ul>
+      </div>
+   </div>
+   <div class="DIV-LICENSE-PAGE">
+       <div class="DIV-LICENSE-PAGE-">
+         <h1>Licença:</h1>
+       </div>
+       <div class="DIV-LICENSE-LEGENDA">
+          <p>Todos os códigos disponíveis e utilizados no site estão licenciados sob a GNU General Public License v3.0 (GPL-3.0).<br>Isso significa que você tem liberdade para usar, copiar, modificar e distribuir o conteúdo, desde que preserve a mesma licença e respeite os termos estabelecidos.<br><br><b>Resumo da Licença:</b><br>Você pode usar o conteúdo para qualquer propósito.<br>Você pode modificar e distribuir versões derivadas.<br>Você deve disponibilizar o código-fonte (se aplicável) das modificações sob a mesma licença GPL-3.0.<br>Você deve incluir uma cópia desta licença sempre que redistribuir o conteúdo.<br><br><b>Texto completo da licença:</b><br><a href="#">GNU General Public License v3.0 (em inglês)</a></p>
+          <br><br><hr><br>
+          <p><b>Fontes usadas no site:</b><br>Montserrat: Licenciada sob a SIL Open Font License 1.1.<br><b>Texto completo da licença:</b> <a href="#">https://openfontlicense.org/open-font-license-official-text/</a> (em inglês)</p>
+       </div>
+   </div>
+   <div class="DIV-FOOTER"><b>Author:</b>&nbsp;Juan90264 (GitHub)&nbsp;&nbsp;|&nbsp;&nbsp;<b>Powered by GitHub</b></div>
+   <script src="script.js"></script>
+   <script src="translate.js"></script>
+</body>
+</html>
