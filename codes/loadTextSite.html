@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>Juan90264 - LoadTextSite</title>
+   <meta name="description" content="Portfolio">
+   <meta name="keywords" content="HTML, CSS, JavaScript">
+   <meta name="author" content="Juan90264">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="../style.css" />
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+   <script>
+      var oldScrollY = window.scrollY + 400;
+      window.onscroll = function(e) {
+        if(oldScrollY < window.scrollY){
+           $(".DIV-MENU").addClass("fixed");
+        } else {
+           $(".DIV-MENU").removeClass("fixed");
+        }
+        oldScrollY = window.scrollY;
+      }
+   </script>
+   <style>
+.DIV-PAGE-CODE- {
+    width: auto;
+    margin-top: 128px;
+    background: #dfdfdf;
+    word-break: break-word;
+}
+
+#output {
+    white-space: pre-wrap;
+    background: #f2f2f2;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-family: Montserrat;
+    font-size: 21px;
+}
+
+input#url-input {
+    width: 500px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 8px;
+    outline: 0;
+    font-size: 21px;
+    border: 1px solid #000;
+}
+
+.DIV-INPUT {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.DIV-INPUT > h1 {
+    font-family: Montserrat;
+    font-size: 41px;
+}
+
+.DIV-INPUT > div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+button#load-btn {
+    width: 120px;
+    height: 50px;
+    background: #fff;
+    color: #000;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+    margin-left: 14px;
+    border: 1px solid #000;
+    outline: 0;
+}
+
+button#load-btn:hover {
+    background: #d9d9d9;
+    transition: 0.5s;
+}        
+
+#status {
+    color: #777;
+    margin-top: 5px;
+    font-family: Montserrat;
+    font-size: 21px;
+}
+   </style>
+</head>
+<body>
+   <div class="DIV-MENU">
+      <div class="DIV-MENU-LOGO"><a href="../index.html">JUAN90264</a></div>
+      <div class="DIV-MENU-MOBILE">
+         <button class="DIV-MENU-MOBILE-BUTTON">
+            <img src="https://www.svgrepo.com/show/509382/menu.svg" />
+         </button>
+      </div>
+      <div class="DIV-MENU-">
+         <ul>
+           <li><a href="../codes.html">Códigos</a></li>
+           <li><a href="../license.html">Licença</a></li>
+         </ul>
+      </div>
+      <div class="DIV-MENU-IDIOMAS" id="DIV-MENU-IDIOMAS">
+        <select id="language-select">
+           <option value="pt">Português</option>
+           <option value="en">English</option>
+        </select>
+      </div>
+   </div>
+   <div class="DIV-MENU-MOBILE-">
+      <div>
+         <ul>
+            <li><a href="../codes.html">Códigos</a></li>
+            <li><a href="../license.html">Licença</a></li> 
+         </ul>
+      </div>
+   </div>
+   <div class="DIV-PAGE-CODE-">
+      <div class="DIV-INPUT">
+         <h1>LoadTextSite</h1><br>
+         <div>
+            <input type="text" id="url-input" placeholder="Digite a URL aqui">
+            <button id="load-btn">Carregar Texto</button>
+         </div>
+      </div>
+      <div id="status"></div>
+      <div id="output"></div>   
+   </div>
+   <div class="DIV-FOOTER"><b>Author:</b>&nbsp;Juan90264 (GitHub)&nbsp;&nbsp;|&nbsp;&nbsp;<b>Powered by GitHub</b></div>
+   <script>
+   function loadVisibleTextFromSite(url) {
+        $('#status').text('🔄 Procurando conteúdo... Pode levar alguns segundos...');
+        $('#output').empty();
+
+    // Verifica ou cria o iframe
+    let iframe = document.getElementById('hidden-iframe');
+    if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.id = 'hidden-iframe';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+    }
+
+    const userAgents = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+        'Mozilla/5.0 (iPad; CPU OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0'
+    ];
+
+    function getRandomUserAgent() {
+        return userAgents[Math.floor(Math.random() * userAgents.length)];
+    }
+
+    const proxies = [
+        'https://allorigins-juan90264.onrender.com/raw?url=',
+        'https://corsproxy.io/?'
+    ];
+
+    function getRandomProxy() {
+        return proxies[Math.floor(Math.random() * proxies.length)];
+    }
+
+    // Nova tentativa: tentar buscar primeiro via fetch
+    fetch("https://workercors.jp90264.workers.dev/?url=" + encodeURIComponent(url), {
+        method: 'GET',
+        headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                          "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
+            "Cache-Control": "no-cache",
+            "Pragma": "no-cache",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro na resposta proxy');
+        }
+        return response.text();
+    })
+    .then(html => {
+        $('#status').text('✅ Conteúdo carregado!');
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        let visibleText = '';
+
+        function getVisibleText(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const trimmed = node.nodeValue.trim();
+                if (trimmed) {
+                    visibleText += trimmed + '\n';
+                }
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                const style = window.getComputedStyle(node);
+                if (style && style.display !== 'none' && style.visibility !== 'hidden') {
+                    for (const child of node.childNodes) {
+                        getVisibleText(child);
+                    }
+                }
+            }
+        }
+        getVisibleText(doc.body);
+
+        $('#output').text(visibleText.trim());
+    })
+    .catch(error => {
+        console.warn('⚠️ Proxy falhou, tentando iframe escondido...', error);
+        $('#status').text('🔄 Proxy bloqueado, tentando iframe...');
+
+        // Tenta carregar pelo iframe mesmo (não vai funcionar para sites bloqueados por X-Frame-Options)
+        iframe.onload = function() {
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                let visibleText = '';
+                function getVisibleText(node) {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        const trimmed = node.nodeValue.trim();
+                        if (trimmed) {
+                            visibleText += trimmed + '\n';
+                        }
+                    } else if (node.nodeType === Node.ELEMENT_NODE) {
+                        for (const child of node.childNodes) {
+                            getVisibleText(child);
+                        }
+                    }
+                }
+                getVisibleText(doc.body);
+
+                $('#output').text(visibleText.trim());
+                $('#status').text('✅ Conteúdo via iframe!');
+            } catch (err) {
+                console.error('❌ Erro final:', err);
+                $('#status').text('❌ Não foi possível acessar o site.');
+            }
+        };
+
+        iframe.src = url;
+    });
+}
+
+    $(document).ready(function() {
+        $('#load-btn').on('click', function() {
+            const url = $('#url-input').val().trim();
+            if (url) {
+                loadVisibleTextFromSite(url);
+            } else {
+                alert('Por favor, digite uma URL válida.');
+            }
+        });
+    });
+   </script>
+   <script src="../script.js"></script>
+   <script src="../translate.js"></script>
+</body>
+</html>
