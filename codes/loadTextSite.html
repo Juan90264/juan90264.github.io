@@ -189,7 +189,7 @@ button#load-btn:hover {
     function loadVisibleTextFromSite(url, container) {
         container.text('🔄 Carregando...');
     
-        fetch("https://worker-cors.vercel.app/api/worker?url=" + encodeURIComponent(url), {
+        fetch("https://worker-cors.vercel.app/api/worker?url=" + encodeURIComponent(url) + "&cheerio=1", {
             headers: {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
                               "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
