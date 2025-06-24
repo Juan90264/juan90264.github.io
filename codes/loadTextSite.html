@@ -191,7 +191,18 @@ pre {
         }
     
         getVisibleText(doc.body);
-        return visibleText.trim();
+
+        function formatTextToHTML(text) {
+            const paragraphs = text
+              .trim()
+              .split(/\n{2,}/)
+              .map(para =>
+                `<p>${para.trim().replace(/\n/g, '<br>')}</p>`
+              );
+          
+            return paragraphs.join('\n');
+        }
+        return formatTextToHTML(visibleText.trim());
     }
     
     function loadVisibleTextFromSite(url, container) {
