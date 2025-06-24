@@ -60,7 +60,7 @@
 }
 
 textarea#url-input {
-    width: 500px;
+    width: 500px !important;
     height: 40px;
     padding: 5px;
     border-radius: 8px;
@@ -189,7 +189,7 @@ button#load-btn:hover {
     function loadVisibleTextFromSite(url, container) {
         container.text('🔄 Carregando...');
     
-        fetch("https://worker-cors.vercel.app/api/worker?url=" + encodeURIComponent(url) + "&cheerio=1", {
+        fetch("https://worker-cors.vercel.app/api/worker?url=" + encodeURIComponent(url), {
             headers: {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
                               "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
