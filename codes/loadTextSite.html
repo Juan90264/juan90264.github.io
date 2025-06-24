@@ -210,10 +210,8 @@ pre {
             return res.text();
         })
         .then(html => {
-            const data = getVisibleTextFromHTML(html);
-            const textoFormatado = data.text;
-            const pre = $('<pre></pre>').text(textoFormatado);
-            container.html(`<b>${url}</b><br>`).prepend(pre);
+            const text = getVisibleTextFromHTML(html);
+            container.html(`<b>${url}</b><br><pre>${text}</pre>`);
         })
         .catch(err => {
             container.html(`<b>${url}</b><br>❌ Erro ao carregar: ${err.message}`);
