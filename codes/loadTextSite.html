@@ -59,7 +59,7 @@
     font-size: 21px;
 }
 
-input#url-input {
+textarea#url-input {
     width: 500px;
     height: 40px;
     padding: 5px;
@@ -67,6 +67,7 @@ input#url-input {
     outline: 0;
     font-size: 21px;
     border: 1px solid #000;
+    font-family: Montserrat;
 }
 
 .DIV-INPUT {
@@ -155,7 +156,7 @@ button#load-btn:hover {
       <div class="DIV-INPUT">
          <h1>LoadTextSite</h1><br>
          <div>
-            <input type="text" id="url-input" placeholder="Digite a URL aqui">
+            <textarea type="text" id="url-input" placeholder="Digite a URL aqui"></textarea>
             <button id="load-btn">Carregar Texto</button>
          </div>
       </div>
@@ -164,129 +165,67 @@ button#load-btn:hover {
    </div>
    <div class="DIV-FOOTER"><b>Author:</b>&nbsp;Juan90264 (GitHub)&nbsp;&nbsp;|&nbsp;&nbsp;<b>Powered by GitHub</b></div>
    <script>
-   function loadVisibleTextFromSite(url) {
-        $('#status').text('🔄 Procurando conteúdo... Pode levar alguns segundos...');
-        $('#output').empty();
-
-    // Verifica ou cria o iframe
-    let iframe = document.getElementById('hidden-iframe');
-    if (!iframe) {
-        iframe = document.createElement('iframe');
-        iframe.id = 'hidden-iframe';
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-    }
-
-    const userAgents = [
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15',
-        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
-        'Mozilla/5.0 (iPad; CPU OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0'
-    ];
-
-    function getRandomUserAgent() {
-        return userAgents[Math.floor(Math.random() * userAgents.length)];
-    }
-
-    const proxies = [
-        'https://allorigins-juan90264.onrender.com/raw?url=',
-        'https://corsproxy.io/?'
-    ];
-
-    function getRandomProxy() {
-        return proxies[Math.floor(Math.random() * proxies.length)];
-    }
-
-    // Nova tentativa: tentar buscar primeiro via fetch
-    fetch("https://workercors.jp90264.workers.dev/?url=" + encodeURIComponent(url), {
-        method: 'GET',
-        headers: {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-                          "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
-            "Cache-Control": "no-cache",
-            "Pragma": "no-cache",
-            "Connection": "keep-alive",
-            "Upgrade-Insecure-Requests": "1",
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro na resposta proxy');
-        }
-        return response.text();
-    })
-    .then(html => {
-        $('#status').text('✅ Conteúdo carregado!');
+    function getVisibleTextFromHTML(html) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         let visibleText = '';
-
+    
         function getVisibleText(node) {
             if (node.nodeType === Node.TEXT_NODE) {
                 const trimmed = node.nodeValue.trim();
-                if (trimmed) {
-                    visibleText += trimmed + '\n';
-                }
+                if (trimmed) visibleText += trimmed + '\n';
             } else if (node.nodeType === Node.ELEMENT_NODE) {
                 const style = window.getComputedStyle(node);
-                if (style && style.display !== 'none' && style.visibility !== 'hidden') {
-                    for (const child of node.childNodes) {
-                        getVisibleText(child);
-                    }
+                if (style?.display !== 'none' && style?.visibility !== 'hidden') {
+                    for (const child of node.childNodes) getVisibleText(child);
                 }
             }
         }
+    
         getVisibleText(doc.body);
-
-        $('#output').text(visibleText.trim());
-    })
-    .catch(error => {
-        console.warn('⚠️ Proxy falhou, tentando iframe escondido...', error);
-        $('#status').text('🔄 Proxy bloqueado, tentando iframe...');
-
-        // Tenta carregar pelo iframe mesmo (não vai funcionar para sites bloqueados por X-Frame-Options)
-        iframe.onload = function() {
-            try {
-                const doc = iframe.contentDocument || iframe.contentWindow.document;
-                let visibleText = '';
-                function getVisibleText(node) {
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        const trimmed = node.nodeValue.trim();
-                        if (trimmed) {
-                            visibleText += trimmed + '\n';
-                        }
-                    } else if (node.nodeType === Node.ELEMENT_NODE) {
-                        for (const child of node.childNodes) {
-                            getVisibleText(child);
-                        }
-                    }
-                }
-                getVisibleText(doc.body);
-
-                $('#output').text(visibleText.trim());
-                $('#status').text('✅ Conteúdo via iframe!');
-            } catch (err) {
-                console.error('❌ Erro final:', err);
-                $('#status').text('❌ Não foi possível acessar o site.');
+        return visibleText.trim();
+    }
+    
+    function loadVisibleTextFromSite(url, container) {
+        container.text('🔄 Carregando...');
+    
+        fetch("https://worker-cors.vercel.app/api/worker?url=" + encodeURIComponent(url), {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                              "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                "Accept": "text/html",
+                "Cache-Control": "no-cache"
             }
-        };
-
-        iframe.src = url;
-    });
-}
-
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Proxy falhou');
+            return res.text();
+        })
+        .then(html => {
+            const text = getVisibleTextFromHTML(html);
+            container.html(`<b>${url}</b><br><pre>${text}</pre>`);
+        })
+        .catch(err => {
+            container.html(`<b>${url}</b><br>❌ Erro ao carregar: ${err.message}`);
+        });
+    }
+    
     $(document).ready(function() {
         $('#load-btn').on('click', function() {
-            const url = $('#url-input').val().trim();
-            if (url) {
-                loadVisibleTextFromSite(url);
-            } else {
-                alert('Por favor, digite uma URL válida.');
+            const raw = $('#url-input').val().trim();
+            const urls = raw.split(/\n+/).filter(Boolean).slice(0, 5); // até 5
+    
+            if (urls.length === 0) {
+                alert('Por favor, digite pelo menos uma URL.');
+                return;
             }
+    
+            $('#output').empty();
+            urls.forEach(url => {
+                const siteBox = $('<div class="site-box">🔄 Procurando... </div>');
+                $('#output').append(siteBox);
+                loadVisibleTextFromSite(url, siteBox);
+            });
         });
     });
    </script>
